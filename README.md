@@ -1,4 +1,4 @@
-# <img src="screenshots/cents-icon.png" alt="Cents" width="32"/> Cents
+# <img src="screenshots/penny-icon.png" alt="Penny" width="32"/> Penny
 
 A clean, simple personal finance tracker using double-entry bookkeeping principles.
 
@@ -32,8 +32,8 @@ A clean, simple personal finance tracker using double-entry bookkeeping principl
 
 1. Clone the repository:
 ```bash
-   git clone https://github.com/christianlaverde/cents.git
-   cd cents
+   git clone https://github.com/christianlaverde/penny.git
+   cd penny
 ```
 
 2. Create a virtual environment and install dependencies:
@@ -72,7 +72,7 @@ A clean, simple personal finance tracker using double-entry bookkeeping principl
 - **Edit/Delete**: Use the action buttons on each transaction to modify or remove entries
 
 ### Understanding Double-Entry Bookkeeping
-Cents uses traditional accounting principles:
+Penny uses traditional accounting principles:
 - **Assets & Expenses**: Increase with debits, decrease with credits
 - **Liabilities, Equity & Income**: Increase with credits, decrease with debits
 
