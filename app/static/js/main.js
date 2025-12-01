@@ -357,7 +357,7 @@ function initializeView() {
 
 window.addEventListener('resize', () => {
   if (window.innerWidth <= 768) {
-    const mobileViewEnabled = mainContent.classList.contains('mobile-active');
+    const mobileViewEnabled = mainContent.classList.contains('mobile-active') || sidebar.classList.contains('mobile-active');
     if (!mobileViewEnabled) {
       initializeMobileView();
     }
