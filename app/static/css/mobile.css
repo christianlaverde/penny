@@ -36,11 +36,7 @@
         color: #e8f5e7;
     }
 
-    .mobile-nav-item:active {
-        transform: scale(0.95);
-    }
 
-    /* Center add button styling */
     .mobile-nav-add {
         background-color: #4a7c59;
         color: white;
@@ -53,14 +49,12 @@
         background-color: #5a9169;
     }
 
-    /* Adjust container for mobile */
     .container {
         grid-template-columns: 1fr;
         height: calc(100vh - 65px); /* Account for bottom nav */
         padding-bottom: 0;
     }
 
-    /* Mobile view toggle logic */
     .sidebar {
         display: none;
     }
@@ -83,7 +77,6 @@
         height: 100%;
     }
 
-    /* Adjust main header for mobile */
     .main-header {
         padding: 15px;
     }
@@ -98,12 +91,10 @@
         justify-content: space-between;
     }
 
-    /* Hide desktop add transaction button on mobile */
     #add-transaction-btn {
         display: none;
     }
 
-    /* Adjust table for mobile */
     table {
         font-size: 14px;
     }
@@ -126,7 +117,6 @@
         padding-right: 8px;
     }
 
-    /* Make account items more touch-friendly */
     .account-item {
         padding: 12px 16px;
         font-size: 15px;
@@ -137,20 +127,17 @@
         margin-top: 20px;
     }
 
-    /* Adjust sidebar button for mobile */
     #add-account-btn {
         margin-top: 10px;
         padding: 12px 20px;
         font-size: 16px;
     }
 
-    /* Ensure modals are mobile-friendly */
     .modal-content {
         width: 90%;
         max-width: 400px;
     }
 
-    /* Hide context menus on mobile - use tap instead */
     .context-menu {
         min-width: 150px;
         font-size: 16px;
@@ -161,7 +148,6 @@
     }
 }
 
-/* Tablet and larger screens - ensure desktop layout */
 @media screen and (min-width: 769px) {
     .mobile-nav {
         display: none !important;
