@@ -318,13 +318,6 @@ const mobileAddTransactionBtn = document.getElementById('mobile-add-transaction-
 const sidebar = document.querySelector('.sidebar');
 const mainContent = document.querySelector('.main-content');
 
-function initializeMobileView() {
-  if (window.innerWidth <= 768) {
-    mainContent.classList.add('mobile-active');
-    mobileTransactionsTab.classList.add('active');
-  }
-}
-
 if (mobileAccountsTab) {
   mobileAccountsTab.addEventListener('click', () => {
     sidebar.classList.add('mobile-active');
@@ -343,7 +336,6 @@ if (mobileTransactionsTab) {
   });
 }
 
-// Mobile Add Transaction button
 if (mobileAddTransactionBtn) {
   mobileAddTransactionBtn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -352,18 +344,29 @@ if (mobileAddTransactionBtn) {
   });
 }
 
-// Initialize on page load
-initializeMobileView();
+function initializeMobileView() {
+  mainContent.classList.add('mobile-active');
+  mobileTransactionsTab.classList.add('active');
+}
 
-// Re-initialize on window resize
-window.addEventListener('resize', () => {
+function initializeView() {
   if (window.innerWidth <= 768) {
     initializeMobileView();
+  }
+}
+
+window.addEventListener('resize', () => {
+  if (window.innerWidth <= 768) {
+    const mobileViewEnabled = mainContent.classList.contains('mobile-active');
+    if (!mobileViewEnabled) {
+      initializeMobileView();
+    }
   } else {
-    // Reset mobile classes when switching to desktop
     sidebar.classList.remove('mobile-active');
     mainContent.classList.remove('mobile-active');
     mobileAccountsTab.classList.remove('active');
     mobileTransactionsTab.classList.remove('active');
   }
 });
+
+initializeView();
