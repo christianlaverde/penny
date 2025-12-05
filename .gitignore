@@ -3,5 +3,5 @@ venv/
 .env
 .DS_Store
 instance/
-todo.org
-
+CLAUDE.md
+PLAN.md
