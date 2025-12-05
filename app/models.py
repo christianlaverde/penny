@@ -54,6 +54,18 @@ class Account(db.Model):
 
         return balance
 
+    def to_dict(self):
+        """Serialize account to dict."""
+        return {
+            'id': self.id,
+            'name': self.name,
+            'type': self.type.value,
+            'balance': float(self.get_balance()),
+            'normalBalance': self.normal_balance.value,
+            'isActive': self.is_active,
+            'createdAt': self.created_at.isoformat()
+        }
+
     def __repr__(self):
         return f'<Account {self.name}[{self.id}] ({self.type})>'
 
@@ -79,6 +91,29 @@ class Transaction(db.Model):
         self.amount = amount
         self.debit_account_id = debit_account_id
         self.credit_account_id = credit_account_id
+
+    def to_dict(self):
+        """Serialize transaction to dict."""
+        return {
+            'id': self.id,
+            'description': self.description,
+            'date': self.date.isoformat(),
+            'amount': float(self.amount),
+            'debitAccountId': self.debit_account_id,
+            'creditAccountId': self.credit_account_id,
+            'debitAccount': {
+                'id': self.debit_account.id,
+                'name': self.debit_account.name,
+                'type': self.debit_account.type.value
+            },
+            'creditAccount': {
+                'id': self.credit_account.id,
+                'name': self.credit_account.name,
+                'type': self.credit_account.type.value
+            },
+            'isActive': self.is_active,
+            'createdAt': self.created_at.isoformat()
+        }
 
     def __repr__(self):
         return f'<Transaction ${self.amount} paid to {self.debit_account_id} by {self.credit_account_id} for {self.description} on {self.date}>'

@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from dotenv import load_dotenv
 import os
 
@@ -23,6 +24,8 @@ def create_app():
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') or 'SECRET-DEV-KEY'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+    CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
+
     db.init_app(app)
 
     with app.app_context():
@@ -33,5 +36,8 @@ def create_app():
 
     from app.routes import register_routes
     register_routes(app)
+
+    from app.api import api_bp
+    app.register_blueprint(api_bp, url_prefix='/api')
 
     return app
