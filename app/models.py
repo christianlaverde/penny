@@ -25,7 +25,7 @@ class Account(db.Model):
     name = db.Column(db.String(100), nullable=False)
     type = db.Column(db.Enum(AccountType), nullable=False)
     is_active = db.Column(db.Boolean, default=True)
-    created_at = db.Column(db.DateTime, default=datetime.now())
+    created_at = db.Column(db.DateTime, default=datetime.now)
 
     def __init__(self, account_name, account_type):
         self.name = account_name
@@ -63,7 +63,7 @@ class Account(db.Model):
             'balance': float(self.get_balance()),
             'normalBalance': self.normal_balance.value,
             'isActive': self.is_active,
-            'createdAt': self.created_at.isoformat()
+            'createdAt': self.created_at.isoformat() if self.created_at else None
         }
 
     def __repr__(self):
@@ -80,7 +80,7 @@ class Transaction(db.Model):
     debit_account_id = db.Column(db.Integer, db.ForeignKey('accounts.id'), nullable=False)
     credit_account_id = db.Column(db.Integer, db.ForeignKey('accounts.id'), nullable=False)
     is_active = db.Column(db.Boolean, default=True)
-    created_at = db.Column(db.DateTime, default=datetime.now())
+    created_at = db.Column(db.DateTime, default=datetime.now)
 
     debit_account = db.relationship('Account', foreign_keys=[debit_account_id])
     credit_account = db.relationship('Account', foreign_keys=[credit_account_id])
@@ -112,7 +112,7 @@ class Transaction(db.Model):
                 'type': self.credit_account.type.value
             },
             'isActive': self.is_active,
-            'createdAt': self.created_at.isoformat()
+            'createdAt': self.created_at.isoformat() if self.created_at else None
         }
 
     def __repr__(self):
