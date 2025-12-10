@@ -1,6 +1,9 @@
 import type { ReactNode } from 'react'
 import { Sidebar } from './Sidebar'
 import { MobileNav } from './MobileNav'
+import { AccountModal } from './modals/AccountModal'
+import { TransactionModal } from './modals/TransactionModal'
+import { DeleteConfirmModal } from './modals/DeleteConfirmModal'
 
 interface LayoutProps {
   children: ReactNode
@@ -9,6 +12,7 @@ interface LayoutProps {
 /**
  * Main layout with sidebar (desktop) and bottom nav (mobile)
  * 2-column layout on desktop (768px+), single column on mobile
+ * Includes all modals
  */
 export function Layout({ children }: LayoutProps) {
   return (
@@ -24,6 +28,11 @@ export function Layout({ children }: LayoutProps) {
 
       {/* Mobile: Bottom navigation */}
       <MobileNav />
+
+      {/* Modals */}
+      <AccountModal />
+      <TransactionModal />
+      <DeleteConfirmModal />
     </div>
   )
 }

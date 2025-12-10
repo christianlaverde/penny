@@ -7,8 +7,45 @@ import type { Transaction } from '../types'
  * Displays transactions in a responsive table
  */
 export function TransactionTable() {
-  const { filterAccountId, clearFilters } = useUIStore()
+  const { filterAccountId, clearFilters, openTransactionModal, openEditTransactionModal, openDeleteConfirm } = useUIStore()
   const { data: transactions, isLoading, error } = useTransactions(filterAccountId)
+
+  const handleContextMenu = (e: React.MouseEvent, transactionId: number) => {
+    e.preventDefault()
+
+    const menu = document.createElement('div')
+    menu.className = 'fixed bg-white shadow-lg border border-gray-200 rounded py-1 z-50'
+    menu.style.left = `${e.clientX}px`
+    menu.style.top = `${e.clientY}px`
+
+    const editBtn = document.createElement('button')
+    editBtn.textContent = 'Edit'
+    editBtn.className = 'block w-full text-left px-4 py-2 text-sm hover:bg-gray-100'
+    editBtn.onclick = () => {
+      openEditTransactionModal(transactionId)
+      document.body.removeChild(menu)
+    }
+
+    const deleteBtn = document.createElement('button')
+    deleteBtn.textContent = 'Delete'
+    deleteBtn.className = 'block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100'
+    deleteBtn.onclick = () => {
+      openDeleteConfirm('transaction', transactionId)
+      document.body.removeChild(menu)
+    }
+
+    menu.appendChild(editBtn)
+    menu.appendChild(deleteBtn)
+    document.body.appendChild(menu)
+
+    const closeMenu = () => {
+      if (document.body.contains(menu)) {
+        document.body.removeChild(menu)
+      }
+      document.removeEventListener('click', closeMenu)
+    }
+    setTimeout(() => document.addEventListener('click', closeMenu), 0)
+  }
 
   if (isLoading) {
     return (
@@ -34,14 +71,22 @@ export function TransactionTable() {
     <div className="p-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-bold">Transactions</h2>
-        {filterAccountId && (
+        <div className="flex items-center gap-3">
+          {filterAccountId && (
+            <button
+              onClick={clearFilters}
+              className="text-sm text-blue-600 hover:text-blue-800"
+            >
+              Clear filter
+            </button>
+          )}
           <button
-            onClick={clearFilters}
-            className="text-sm text-blue-600 hover:text-blue-800"
+            onClick={openTransactionModal}
+            className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
           >
-            Clear filter
+            + New
           </button>
-        )}
+        </div>
       </div>
 
       {transactions.length === 0 ? (
@@ -70,7 +115,11 @@ export function TransactionTable() {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {transactions.map((transaction) => (
-                <tr key={transaction.id} className="hover:bg-gray-50">
+                <tr
+                  key={transaction.id}
+                  className="hover:bg-gray-50 cursor-pointer"
+                  onContextMenu={(e) => handleContextMenu(e, transaction.id)}
+                >
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {new Date(transaction.date).toLocaleDateString()}
                   </td>

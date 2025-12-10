@@ -13,11 +13,48 @@ interface AccountGroupProps {
  */
 export function AccountGroup({ title, accounts }: AccountGroupProps) {
   const [isOpen, setIsOpen] = useState(true)
-  const { selectedAccountId, setSelectedAccount, setFilterAccount } = useUIStore()
+  const { selectedAccountId, setSelectedAccount, setFilterAccount, openEditAccountModal, openDeleteConfirm } = useUIStore()
 
   const handleAccountClick = (accountId: number) => {
     setSelectedAccount(accountId)
     setFilterAccount(accountId)
+  }
+
+  const handleContextMenu = (e: React.MouseEvent, accountId: number) => {
+    e.preventDefault()
+
+    const menu = document.createElement('div')
+    menu.className = 'fixed bg-white shadow-lg border border-gray-200 rounded py-1 z-50'
+    menu.style.left = `${e.clientX}px`
+    menu.style.top = `${e.clientY}px`
+
+    const editBtn = document.createElement('button')
+    editBtn.textContent = 'Rename'
+    editBtn.className = 'block w-full text-left px-4 py-2 text-sm hover:bg-gray-100'
+    editBtn.onclick = () => {
+      openEditAccountModal(accountId)
+      document.body.removeChild(menu)
+    }
+
+    const deleteBtn = document.createElement('button')
+    deleteBtn.textContent = 'Delete'
+    deleteBtn.className = 'block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100'
+    deleteBtn.onclick = () => {
+      openDeleteConfirm('account', accountId)
+      document.body.removeChild(menu)
+    }
+
+    menu.appendChild(editBtn)
+    menu.appendChild(deleteBtn)
+    document.body.appendChild(menu)
+
+    const closeMenu = () => {
+      if (document.body.contains(menu)) {
+        document.body.removeChild(menu)
+      }
+      document.removeEventListener('click', closeMenu)
+    }
+    setTimeout(() => document.addEventListener('click', closeMenu), 0)
   }
 
   return (
@@ -36,6 +73,7 @@ export function AccountGroup({ title, accounts }: AccountGroupProps) {
             <button
               key={account.id}
               onClick={() => handleAccountClick(account.id)}
+              onContextMenu={(e) => handleContextMenu(e, account.id)}
               className={`w-full flex items-center justify-between px-6 py-2 text-sm hover:bg-gray-100 rounded ${
                 selectedAccountId === account.id ? 'bg-blue-50 text-blue-700' : 'text-gray-700'
               }`}
