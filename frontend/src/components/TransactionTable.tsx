@@ -1,5 +1,6 @@
 import { useTransactions } from '../hooks/useTransactions'
 import { useUIStore } from '../store/ui'
+import { TransactionRowSkeleton } from './LoadingSkeleton'
 import type { Transaction } from '../types'
 
 /**
@@ -50,7 +51,39 @@ export function TransactionTable() {
   if (isLoading) {
     return (
       <div className="p-6">
-        <div className="text-sm text-gray-500">Loading transactions...</div>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-bold">Transactions</h2>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Date
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Description
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Debit
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Credit
+                </th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Amount
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              <TransactionRowSkeleton />
+              <TransactionRowSkeleton />
+              <TransactionRowSkeleton />
+              <TransactionRowSkeleton />
+              <TransactionRowSkeleton />
+            </tbody>
+          </table>
+        </div>
       </div>
     )
   }

@@ -1,6 +1,7 @@
 import { useAccounts } from '../hooks/useAccounts'
 import { AccountGroup } from './AccountGroup'
 import { useUIStore } from '../store/ui'
+import { LoadingSkeleton, AccountSkeleton } from './LoadingSkeleton'
 
 /**
  * Sidebar displaying accounts grouped by type
@@ -13,7 +14,16 @@ export function Sidebar() {
   if (isLoading) {
     return (
       <div className="w-64 border-r border-gray-200 p-4 hidden md:block">
-        <div className="text-sm text-gray-500">Loading accounts...</div>
+        <div className="flex items-center justify-between mb-4 px-4">
+          <LoadingSkeleton width="w-24" height="h-6" />
+        </div>
+        <div className="space-y-1">
+          <AccountSkeleton />
+          <AccountSkeleton />
+          <AccountSkeleton />
+          <AccountSkeleton />
+          <AccountSkeleton />
+        </div>
       </div>
     )
   }
@@ -36,7 +46,7 @@ export function Sidebar() {
         <h2 className="text-lg font-bold">Accounts</h2>
         <button
           onClick={openAccountModal}
-          className="w-6 h-6 flex items-center justify-center text-blue-600 hover:bg-blue-50 rounded"
+          className="w-6 h-6 flex items-center justify-center text-blue-600 hover:bg-blue-50 hover:cursor-pointer rounded"
           title="Add account"
         >
           +
