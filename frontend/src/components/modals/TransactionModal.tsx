@@ -7,6 +7,7 @@ import { useAccounts } from '../../hooks/useAccounts'
 /**
  * Modal for creating and editing transactions
  * Pre-fills form when editing
+ * ESC to close
  */
 export function TransactionModal() {
   const { transactionModalOpen, editTransactionId, closeTransactionModal } = useUIStore()
@@ -45,6 +46,17 @@ export function TransactionModal() {
       setCreditAccountId('')
     }
   }, [isEditing, editTransactionId, transactions])
+
+  // ESC to close
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && transactionModalOpen) {
+        handleClose()
+      }
+    }
+    document.addEventListener('keydown', handleEscape)
+    return () => document.removeEventListener('keydown', handleEscape)
+  }, [transactionModalOpen])
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()

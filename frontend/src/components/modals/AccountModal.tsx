@@ -7,6 +7,7 @@ import { AccountType } from '../../types'
 /**
  * Modal for creating and editing accounts
  * Pre-fills form when editing
+ * ESC to close
  */
 export function AccountModal() {
   const { accountModalOpen, editAccountId, closeAccountModal } = useUIStore()
@@ -33,6 +34,17 @@ export function AccountModal() {
       setType(AccountType.ASSET)
     }
   }, [isEditing, editAccountId, accountsByType])
+
+  // ESC to close
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && accountModalOpen) {
+        handleClose()
+      }
+    }
+    document.addEventListener('keydown', handleEscape)
+    return () => document.removeEventListener('keydown', handleEscape)
+  }, [accountModalOpen])
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()

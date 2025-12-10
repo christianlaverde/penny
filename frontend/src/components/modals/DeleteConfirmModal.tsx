@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useUIStore } from '../../store/ui'
 import { useAccountMutations } from '../../hooks/useAccountMutations'
 import { useTransactionMutations } from '../../hooks/useTransactionMutations'
@@ -5,11 +6,23 @@ import { useTransactionMutations } from '../../hooks/useTransactionMutations'
 /**
  * Reusable delete confirmation modal
  * Handles deletion of accounts and transactions
+ * ESC to close
  */
 export function DeleteConfirmModal() {
   const { deleteConfirmOpen, deleteTarget, closeDeleteConfirm } = useUIStore()
   const { deleteAccount } = useAccountMutations()
   const { deleteTransaction } = useTransactionMutations()
+
+  // ESC to close
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && deleteConfirmOpen) {
+        closeDeleteConfirm()
+      }
+    }
+    document.addEventListener('keydown', handleEscape)
+    return () => document.removeEventListener('keydown', handleEscape)
+  }, [deleteConfirmOpen, closeDeleteConfirm])
 
   if (!deleteConfirmOpen || !deleteTarget) return null
 
