@@ -1,4 +1,5 @@
-import { useState, useEffect, FormEvent } from 'react'
+import type { FormEvent } from 'react'
+import { useState, useEffect } from 'react'
 import { useUIStore } from '../../store/ui'
 import { useAccountMutations } from '../../hooks/useAccountMutations'
 import { useAccounts } from '../../hooks/useAccounts'
@@ -73,7 +74,7 @@ export function AccountModal() {
   if (!accountModalOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
         <h2 className="text-lg font-bold mb-4">
           {isEditing ? 'Edit Account' : 'New Account'}
